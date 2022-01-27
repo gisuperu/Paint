@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class MousePaintListener implements MouseInputListener {
 
-    private JFrame frame;
+    private JPanel panel;
     private Graphics graphics;
     private Color color;
 
@@ -23,9 +23,9 @@ public class MousePaintListener implements MouseInputListener {
     * 3 : draw triangle
     */
 
-    public MousePaintListener(JFrame frame){
-        this.frame = frame;
-        this.graphics = frame.getGraphics();
+    public MousePaintListener(JPanel panel){
+        this.panel = panel;
+        this.graphics = panel.getGraphics();
         this.color = new Color(0, 0, 0);
 
         this.bold = 2;
@@ -112,7 +112,7 @@ public class MousePaintListener implements MouseInputListener {
     @Override
     public void mouseEntered(MouseEvent e) {
 //        System.out.println("entered");
-        this.graphics = frame.getGraphics();
+        this.graphics = panel.getGraphics();
 
     }
 

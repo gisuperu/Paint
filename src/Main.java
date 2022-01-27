@@ -4,38 +4,38 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args){
-        final int WORKWIDTH = 500;
-        final int WORKHEIGHT = 500;
-        final int MENUWIDTH = 200;
-        final int MENUHEIGHT = WORKHEIGHT;
+
+        //レイアウト生成
+        LayoutManager manager = new LayoutManager();
 
         JFrame frame = new JFrame("ぺいんと");
-        frame.setSize(WORKWIDTH+MENUWIDTH, WORKHEIGHT);
+        frame.setSize(manager.WORKWIDTH+manager.MENUWIDTH, manager.WORKHEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frame.setLayout(null);      //サイズ変化に伴う自動レイアウト禁止
         frame.setResizable(false);  //サイズ変更を禁止
-        JPanel frm = new JPanel();
-        frm.setLayout(new BorderLayout());
 
-        //レイアウト
-        JPanel workspace = new JPanel();
-        workspace.setPreferredSize(new Dimension(WORKWIDTH, WORKHEIGHT));
-        workspace.setBackground(new Color(127, 127, 127));
-        workspace.setOpaque(true);
-        JPanel menu = new JPanel();
-        menu.setPreferredSize(new Dimension(MENUWIDTH, MENUHEIGHT));
-        menu.setBackground(new Color(150,150,150));
-        menu.setOpaque(true);
 
-        JLabel bt = new JLabel("test");
-        bt.setSize(500, 100);
-        menu.add(bt);
+        //メニューバーの実装
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(new JMenu("test"));
+        frame.setJMenuBar(menuBar);
 
-//        // マウス入力
-//        MousePaintListener mouse = new MousePaintListener(frame);
-//        frame.addMouseListener(mouse);
-//        frame.addMouseMotionListener(mouse);
+
+        frame.add(manager.getFrame(), BorderLayout.CENTER);
+
+        //frameの表示
+        frame.setVisible(true);
+
+        // 遺産
+//        //color picker
+//        JColorChooser colorChooser = new JColorChooser();
+//        colorChooser.setPreferredSize(new Dimension(MENUWIDTH, MENUHEIGHT));
+//        menu.add(colorChooser);
 //
+//        //text box
+//        JTextArea textArea = new JTextArea();
+//        menu.add(textArea);
+
 //        // option button
 //        JButton redButton = new JButton("赤");
 //        JButton bruckButton = new JButton("黒");
@@ -66,12 +66,5 @@ public class Main {
 //        frame.add(triangleButton);
 //        frame.add(freeButton);
 
-        frm.add(workspace, BorderLayout.CENTER);
-        frm.add(menu, BorderLayout.EAST);
-
-        frame.add(frm, BorderLayout.CENTER);
-
-        //frameの表示
-        frame.setVisible(true);
     }
 }
