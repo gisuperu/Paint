@@ -24,6 +24,7 @@ public class MousePaintListener implements MouseInputListener {
     */
 
     public MousePaintListener(JPanel panel){
+        System.out.println("MousePaintListener init.");
         this.panel = panel;
         this.graphics = panel.getGraphics();
         this.color = new Color(0, 0, 0);
@@ -123,7 +124,7 @@ public class MousePaintListener implements MouseInputListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-//        System.out.println("Dragged");
+        System.out.println("Dragged");
         switch (this.tool){
             case 1: // free draw
                 if(points.size() >= 1){

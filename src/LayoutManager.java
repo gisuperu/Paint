@@ -1,5 +1,7 @@
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class LayoutManager {
     static final int WORKWIDTH = 700;
@@ -17,6 +19,7 @@ public class LayoutManager {
 
     private Canvas cnv;
 
+    private ToolStatus status = new ToolStatus(new Color(0,0,0), 10);
 
     public LayoutManager() {
         startUp();
@@ -32,6 +35,48 @@ public class LayoutManager {
         workspace.setPreferredSize(new Dimension(WORKWIDTH, WORKHEIGHT));
         workspace.setBackground(WORKBACKCOLOR);
         workspace.setOpaque(true);
+        //tmp listener
+        MousePaintListener listener = new MousePaintListener(workspace);
+        workspace.addMouseListener(listener);
+        workspace.addMouseMotionListener(listener);
+        //-------------
+//        workspace.addMouseListener(new MouseInputListener() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mouseReleased(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mouseDragged(MouseEvent e) {
+//                System.out.println("dragged");
+//                status.getCurrentPen().mouseDragged(e, (Graphics2D) workspace.getGraphics(), status);
+//            }
+//
+//            @Override
+//            public void mouseMoved(MouseEvent e) {
+//
+//            }
+//        });
 
         this.menu = new JPanel();
         menu.setLayout(new FlowLayout());

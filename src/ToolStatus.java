@@ -1,22 +1,27 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ToolStatus {
     private Color color;
     private int bold;
     private final int BOLDMAX = 40;
-    private int tool;
-    /* tool status
-     * -1 : eraser
-     * 0  : don't draw
-     * 1  : free draw
-     * 2  : draw line
-     * 3  : draw triangle
-     */
+    private Pen currentPen;
+    private Pen[] pens = {
+            new FreePen(),
+            new TrianglePen()
+    };
+//    /* tool status
+//     * 0  : don't draw
+//     * 1  : free draw
+//     * 2  : draw line
+//     * 3  : draw triangle
+//     */
 
-    public ToolStatus(Color color, int bold, int tool){
+    public ToolStatus(Color color, int bold){
         this.color = color;
         this.bold = bold;
-        this.tool = tool;
+
+        this.currentPen = pens[0];
     }
 
     public void setColor(Color color) {
@@ -34,9 +39,6 @@ public class ToolStatus {
             return true;
         }
     }
-    public void setTool(int tool) {
-        this.tool = tool;
-    }
 
 
     public Color getColor(){
@@ -45,8 +47,7 @@ public class ToolStatus {
     public int getBold(){
         return this.bold;
     }
-    public int getTool(){
-        return this.tool;
+    public Pen getCurrentPen(){
+        return this.currentPen;
     }
-
 }

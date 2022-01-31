@@ -1,2 +1,4 @@
-package PACKAGE_NAME;public class PenManager {
+public class PenManager {
+    private ToolStatus status;
+
 }
