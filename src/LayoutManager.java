@@ -8,16 +8,18 @@ public class LayoutManager {
     static final int WORKHEIGHT = 700;
     static final int MENUWIDTH = 200;
     static final int MENUHEIGHT = WORKHEIGHT;
+    static final int CVSWIDTH = WORKWIDTH;
+    static final int CVSHEIGHT = WORKHEIGHT;
 
     final Color WORKBACKCOLOR = new Color(127, 127, 127);
-    final Color MENUBACKCOLOR = new Color(150,150,150);
-
+    final Color MENUBACKCOLOR = new Color(150, 150, 150);
+    final Color CVSBACKCOLOR = new Color(255, 255, 255);
 
     private JPanel frame;
     private JPanel workspace;
     private JPanel menu;
 
-    private Canvas cnv;
+    private JPanel cvs;
 
     private ToolStatus status = new ToolStatus(new Color(0,0,0), 10);
 
@@ -28,56 +30,27 @@ public class LayoutManager {
     private void startUp(){
         this.frame = new JPanel();
         frame.setLayout(new BorderLayout());
-//        frame.addMouseListener(new MousePaintListener(frame));
 
+        // workspace
         this.workspace = new JPanel();
-        workspace.setLayout(new BorderLayout());
+        workspace.setLayout(new CardLayout());
         workspace.setPreferredSize(new Dimension(WORKWIDTH, WORKHEIGHT));
         workspace.setBackground(WORKBACKCOLOR);
         workspace.setOpaque(true);
-        //tmp listener
-        MousePaintListener listener = new MousePaintListener(workspace);
-        workspace.addMouseListener(listener);
-        workspace.addMouseMotionListener(listener);
-        //-------------
-//        workspace.addMouseListener(new MouseInputListener() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mouseReleased(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mouseEntered(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mouseExited(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mouseDragged(MouseEvent e) {
-//                System.out.println("dragged");
-//                status.getCurrentPen().mouseDragged(e, (Graphics2D) workspace.getGraphics(), status);
-//            }
-//
-//            @Override
-//            public void mouseMoved(MouseEvent e) {
-//
-//            }
-//        });
 
+        this.cvs = new JPanel();
+        cvs.setPreferredSize(new Dimension(CVSWIDTH, CVSHEIGHT));
+        cvs.setBackground(CVSBACKCOLOR);
+        workspace.add(cvs, "currentCanvas");
+
+        //listener
+        PenManager penManager = new PenManager(cvs);
+        workspace.addMouseListener(penManager);
+        workspace.addMouseMotionListener(penManager);
+
+
+
+        // side menu
         this.menu = new JPanel();
         menu.setLayout(new FlowLayout());
         menu.setPreferredSize(new Dimension(MENUWIDTH, MENUHEIGHT));
