@@ -11,9 +11,9 @@ public class LayoutManager {
     static final int CVSWIDTH = WORKWIDTH;
     static final int CVSHEIGHT = WORKHEIGHT;
 
-    final Color WORKBACKCOLOR = new Color(127, 127, 127);
-    final Color MENUBACKCOLOR = new Color(150, 150, 150);
-    final Color CVSBACKCOLOR = new Color(255, 255, 255);
+    static final Color WORKBACKCOLOR = new Color(127, 127, 127);
+    static final Color MENUBACKCOLOR = new Color(150, 150, 150);
+    static final Color CVSBACKCOLOR = new Color(255, 255, 255);
 
     private JPanel frame;
     private JPanel workspace;
