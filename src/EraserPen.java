@@ -6,25 +6,35 @@ public class EraserPen extends Pen{
 
     public EraserPen(){
         super();
-        this.backColor = LayoutManager.CVSBACKCOLOR;
     }
 
     @Override
-    public void mouseClicked(MouseEvent e, Graphics2D g, ToolStatus status){
-        status.addPoints(new int[]{e.getX(), e.getY()});
-        if(status.getPointsSize() >= 2){
-            int[] start = status.popPoints();
-            int[] end = status.popPoints();
-            g.setColor(this.backColor);
-            g.setStroke(new BasicStroke(status.getBold()));
-            g.drawLine(start[0], start[1], end[0], end[1]);
-            status.clearPoints();
+    public void mouseDragged(MouseEvent e, Graphics2D g, ToolStatus status) {
+        if(status.getPointsSize() >= 1){
+            int[] p1 = status.popPoints();
+            int[] p2 = {e.getX(), e.getY()};
+            try{
+                g.setColor(this.backColor);
+                g.setStroke(new BasicStroke(status.getBold()));
+                g.drawLine(p1[0], p1[1], p2[0], p2[1]);
+            }catch(NullPointerException ex){
+                System.err.println("Frame haven't been done setVisible yet!");
+            }
+            status.addPoints(p2);
+        }else{
+            status.addPoints(new int[]{e.getX(), e.getY()});
+
         }
     }
 
     @Override
-    public void startUp() {
+    public void mouseReleased(MouseEvent e, Graphics2D g, ToolStatus status){
+        status.clearPoints();
+    }
 
+    @Override
+    public void startUp() {
+        this.backColor = LayoutManager.CVSBACKCOLOR;
     }
 
     @Override

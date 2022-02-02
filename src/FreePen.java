@@ -40,6 +40,6 @@ public class FreePen extends Pen{
 
     @Override
     public String toString() {
-        return "自由";
+        return "ペン";
     }
 }

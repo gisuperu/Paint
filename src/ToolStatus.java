@@ -1,9 +1,12 @@
+import javax.swing.*;
+import javax.tools.Tool;
 import java.awt.*;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 
 public class ToolStatus {
+
     private Color color;
     private int bold;
     private final int BOLDMAX = 40;
@@ -14,7 +17,8 @@ public class ToolStatus {
     private Pen[] pens = {
             new FreePen(),
             new LinerPen(),
-            new TrianglePen()
+            new TrianglePen(),
+            new EraserPen()
     };
 
 
@@ -24,33 +28,7 @@ public class ToolStatus {
         clearPoints();
 
         this.currentPen = pens[0];
-    }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-    public boolean setBold(int bold) {
-        if(bold <= 0){
-            this.bold = 1;
-            return false;
-        }else if(bold > BOLDMAX){
-            this.bold = BOLDMAX;
-            return false;
-        }else{
-            this.bold = bold;
-            return true;
-        }
-    }
-
-
-    public Color getColor(){
-        return this.color;
-    }
-    public int getBold(){
-        return this.bold;
-    }
-    public Pen getCurrentPen(){
-        return this.currentPen;
     }
 
     public void clearPoints(){
@@ -80,4 +58,40 @@ public class ToolStatus {
     public int getPointsSize(){
         return this.points.size();
     }
+
+
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+    public boolean setBold(int bold) {
+        if(bold <= 0){
+            this.bold = 1;
+            return false;
+        }else if(bold > BOLDMAX){
+            this.bold = BOLDMAX;
+            return false;
+        }else{
+            this.bold = bold;
+            return true;
+        }
+    }
+
+    public void setCurrentPen(Pen currentPen) {
+        this.currentPen = currentPen;
+    }
+
+    public Color getColor(){
+        return this.color;
+    }
+    public int getBold(){
+        return this.bold;
+    }
+    public Pen getCurrentPen(){
+        return this.currentPen;
+    }
+    public Pen[] getPens() {
+        return pens;
+    }
+
 }

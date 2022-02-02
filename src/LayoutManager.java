@@ -4,16 +4,18 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class LayoutManager {
-    static final int WORKWIDTH = 700;
-    static final int WORKHEIGHT = 700;
-    static final int MENUWIDTH = 200;
-    static final int MENUHEIGHT = WORKHEIGHT;
-    static final int CVSWIDTH = WORKWIDTH;
-    static final int CVSHEIGHT = WORKHEIGHT;
+    public static final int WORKWIDTH = 700;
+    public static final int WORKHEIGHT = 700;
+    public static final int MENUWIDTH = 200;
+    public static final int MENUHEIGHT = WORKHEIGHT;
+    public static final int CVSWIDTH = WORKWIDTH;
+    public static final int CVSHEIGHT = WORKHEIGHT;
 
-    static final Color WORKBACKCOLOR = new Color(127, 127, 127);
-    static final Color MENUBACKCOLOR = new Color(150, 150, 150);
-    static final Color CVSBACKCOLOR = new Color(255, 255, 255);
+    public static final Color WORKBACKCOLOR = new Color(127, 127, 127);
+    public static final Color MENUBACKCOLOR = new Color(150, 150, 150);
+    public static final Color CVSBACKCOLOR = new Color(255, 255, 255);
+
+    private static LayoutManager instance;
 
     private JPanel frame;
     private JPanel workspace;
@@ -21,7 +23,7 @@ public class LayoutManager {
 
     private JPanel cvs;
 
-    private ToolStatus status = new ToolStatus(new Color(0,0,0), 10);
+    private PenManager penManager;
 
     public LayoutManager() {
         startUp();
@@ -44,7 +46,7 @@ public class LayoutManager {
         workspace.add(cvs, "currentCanvas");
 
         //listener
-        PenManager penManager = new PenManager(cvs);
+        this.penManager = new PenManager(cvs);
         workspace.addMouseListener(penManager);
         workspace.addMouseMotionListener(penManager);
 
@@ -52,16 +54,39 @@ public class LayoutManager {
 
         // side menu
         this.menu = new JPanel();
+//        menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
         menu.setLayout(new FlowLayout());
         menu.setPreferredSize(new Dimension(MENUWIDTH, MENUHEIGHT));
         menu.setBackground(MENUBACKCOLOR);
         menu.setOpaque(true);
+        designMenu(menu);
+
 
         frame.add(workspace, BorderLayout.CENTER);
         frame.add(menu, BorderLayout.EAST);
     }
 
+    private void designMenu(JPanel menu) {
+        JComboBox<Pen> selector = new JComboBox<>(penManager.getStatus().getPens());
+        selector.addActionListener(e -> {
+            Pen p = (Pen)((JComboBox)e.getSource()).getSelectedItem();
+            penManager.getStatus().setCurrentPen(p);
+        });
+        menu.add(selector);
+    }
+
     public JPanel getFrame(){
         return this.frame;
+    }
+
+    public JPanel getMenu() {
+        return menu;
+    }
+
+    public static LayoutManager getInstance() {
+        if(instance == null){
+            instance = new LayoutManager();
+        }
+        return instance;
     }
 }

@@ -51,4 +51,8 @@ public class PenManager implements MouseInputListener {
     public void mouseMoved(MouseEvent e) {
         status.getCurrentPen().mouseMoved(e, g, status);
     }
+
+    public ToolStatus getStatus() {
+        return status;
+    }
 }
