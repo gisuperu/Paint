@@ -18,6 +18,7 @@ public class ToolStatus {
             new FreePen(),
             new LinerPen(),
             new TrianglePen(),
+            new RainbowPen(),
             new EraserPen()
     };
 
