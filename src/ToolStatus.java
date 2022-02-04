@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 
 public class ToolStatus {
 
@@ -11,7 +12,6 @@ public class ToolStatus {
     private int bold;
     private final int BOLDMAX = 40;
     private Deque<int[]> points;
-
 
     private Pen currentPen;
     private Pen[] pens = {
@@ -22,6 +22,7 @@ public class ToolStatus {
             new EraserPen()
     };
 
+    private HashMap<String, Color> presetColor;
 
     public ToolStatus(Color color, int bold){
         this.color = color;
@@ -29,6 +30,16 @@ public class ToolStatus {
         clearPoints();
 
         this.currentPen = pens[0];
+
+        this.presetColor = new HashMap<>();
+        presetColor.put("黒", new Color(0,0,0));
+        presetColor.put("赤", new Color(255,0,0));
+        presetColor.put("黄", new Color(255,255,0));
+        presetColor.put("緑", new Color(0,255,0));
+        presetColor.put("水", new Color(0,255,255));
+        presetColor.put("青", new Color(0,0,255));
+        presetColor.put("紫", new Color(255,0,255));
+
 
     }
 
@@ -63,7 +74,11 @@ public class ToolStatus {
 
 
     public void setColor(Color color) {
-        this.color = color;
+        if(color.getRGB() == 0xffffff){
+            this.color = new Color(0xfefefe);
+        }else{
+            this.color = color;
+        }
     }
     public boolean setBold(int bold) {
         if(bold <= 0){
@@ -93,6 +108,13 @@ public class ToolStatus {
     }
     public Pen[] getPens() {
         return pens;
+    }
+    public Color getPresetColor(String key){
+        if(this.presetColor.containsKey(key)){
+            return presetColor.get(key);
+        }else{
+            return new Color(0,0,0);
+        }
     }
 
 }

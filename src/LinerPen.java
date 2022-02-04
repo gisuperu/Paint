@@ -15,7 +15,7 @@ public class LinerPen extends Pen{
             int[] start = status.popPoints();
             int[] end = status.popPoints();
             g.setColor(status.getColor());
-            g.setStroke(new BasicStroke(status.getBold()));
+            g.setStroke(new BasicStroke(status.getBold(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
             g.drawLine(start[0], start[1], end[0], end[1]);
             status.clearPoints();
         }

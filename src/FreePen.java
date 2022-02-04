@@ -1,3 +1,4 @@
+import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -16,7 +17,7 @@ public class FreePen extends Pen{
             int[] p2 = {e.getX(), e.getY()};
             try{
                 g.setColor(status.getColor());
-                g.setStroke(new BasicStroke(status.getBold()));
+                g.setStroke(new BasicStroke(status.getBold(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
                 g.drawLine(p1[0], p1[1], p2[0], p2[1]);
             }catch(NullPointerException ex){
                 System.err.println("Frame haven't been done setVisible yet!");

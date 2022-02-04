@@ -19,7 +19,7 @@ public class RainbowPen extends Pen{
             try{
                 changeColor();
                 g.setColor(this.currentColor);
-                g.setStroke(new BasicStroke(status.getBold()));
+                g.setStroke(new BasicStroke(status.getBold(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
                 g.drawLine(p1[0], p1[1], p2[0], p2[1]);
             }catch(NullPointerException ex){
                 System.err.println("Frame haven't been done setVisible yet!");
@@ -45,7 +45,7 @@ public class RainbowPen extends Pen{
     @Override
     public void startUp() {
         this.hue = 0;
-        this.saturation = 80;
+        this.saturation = 100;
         this.brightness = 100;
         this.currentColor = Color.getHSBColor(hue/360f, saturation/100f, brightness/100f);
     }
