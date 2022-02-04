@@ -23,6 +23,7 @@ public class LayoutManager {
 
     private JPanel cvs;
     private JFrame colorPickerFrame;
+    private JTextArea textArea;
     private JPanel previewArea;
     private JLabel previewPen;
     private JLabel previewBold;
@@ -50,7 +51,7 @@ public class LayoutManager {
         workspace.add(cvs, "currentCanvas");
 
         //listener
-        this.penManager = new PenManager(cvs);
+        this.penManager = new PenManager(cvs, textArea);
         workspace.addMouseListener(penManager);
         workspace.addMouseMotionListener(penManager);
 
@@ -141,6 +142,36 @@ public class LayoutManager {
 
         menu.add(colorOptions);
 
+
+        //text option
+        JPanel textOptions = new JPanel();
+        textOptions.setLayout(new BorderLayout());
+        textOptions.setBackground(LayoutManager.MENUBACKCOLOR);
+        textOptions.setPreferredSize(new Dimension(MENUWIDTH-10, 100));
+        textOptions.setBorder(new TitledBorder(new LineBorder(Color.BLACK), "text"));
+
+        this.textArea = new JTextArea();
+        textArea.setPreferredSize(new Dimension(MENUWIDTH-20, 80));
+        textArea.setLineWrap(true);
+        penManager.setTextArea(textArea);
+//        textArea.addActionListener(e -> {
+//            String tt = (String)e.getSource();
+//            penManager.getStatus().setText(tt);
+//            updatePreviewArea(penManager.getStatus());
+//        });
+        JComboBox<String> fontBox = new JComboBox<>(penManager.getStatus().getPresetFont());
+        fontBox.addActionListener(e -> {
+            Font f = new Font((String)((JComboBox)e.getSource()).getSelectedItem(), Font.PLAIN, penManager.getStatus().getBold());
+            penManager.getStatus().setFont(f);
+            penManager.getStatus().setText(textArea.getText());
+            updatePreviewArea(penManager.getStatus());
+        });
+
+        textOptions.add(textArea, BorderLayout.CENTER);
+        textOptions.add(fontBox, BorderLayout.SOUTH);
+        menu.add(textOptions);
+
+
         //preview
         JPanel preview = new JPanel();
         preview.setLayout(new BorderLayout());
@@ -167,7 +198,6 @@ public class LayoutManager {
         preview.add(previewArea, BorderLayout.CENTER);
 
         menu.add(preview);
-
 
 
 
@@ -207,12 +237,20 @@ public class LayoutManager {
         if(status.getCurrentPen() instanceof CrossStampPen){
             int bold = status.getBold()/2;
             int size = status.getBold();
-            g.setColor(status.getColor());
             g.setStroke(new BasicStroke(bold, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
             g.drawLine(center[0], center[1], center[0] + size, center[1]);
             g.drawLine(center[0], center[1], center[0] - size, center[1]);
             g.drawLine(center[0], center[1], center[0], center[1] + size);
             g.drawLine(center[0], center[1], center[0], center[1] - size);
+        }else if(status.getCurrentPen() instanceof TextPen){
+            String sampleText = "aAあア亜";
+
+            g.setStroke(new BasicStroke(status.getBold(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            g.setFont(status.getFont());
+
+            FontMetrics fm = g.getFontMetrics();
+            Rectangle rectText = fm.getStringBounds(sampleText, g).getBounds();
+            g.drawString(sampleText, center[0]-rectText.width/2, center[1]-rectText.height/2+fm.getMaxAscent());
         }else{
             g.setStroke(new BasicStroke(status.getBold(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
             g.drawLine(center[0], center[1], center[0], center[1]);

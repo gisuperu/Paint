@@ -20,10 +20,15 @@ public class ToolStatus {
             new TrianglePen(),
             new RainbowPen(),
             new CrossStampPen(),
+            new TextPen(),
             new EraserPen()
     };
 
+    private String text;
+    private Font font;
+
     private HashMap<String, Color> presetColor;
+    private String[] presetFont;
 
     public ToolStatus(Color color, int bold){
         this.color = color;
@@ -31,6 +36,7 @@ public class ToolStatus {
         clearPoints();
 
         this.currentPen = pens[0];
+
 
         this.presetColor = new HashMap<>();
         presetColor.put("黒", new Color(0,0,0));
@@ -40,6 +46,17 @@ public class ToolStatus {
         presetColor.put("水", new Color(0,255,255));
         presetColor.put("青", new Color(0,0,255));
         presetColor.put("紫", new Color(255,0,255));
+
+        this.text = "";
+        this.font = new Font(GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts()[1].getName(), Font.PLAIN, this.bold);
+//        this.font = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts()[0];
+
+        Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+        presetFont = new String[fonts.length];
+        for(int i = 0; i < fonts.length; i++){
+            presetFont[i] = fonts[i].getName();
+        }
+
 
 
     }
@@ -84,14 +101,23 @@ public class ToolStatus {
     public boolean setBold(int bold) {
         if(bold <= 0){
             this.bold = 1;
+            this.font = new Font(this.font.getName(), Font.PLAIN, this.bold);
             return false;
         }else if(bold > BOLDMAX){
             this.bold = BOLDMAX;
+            this.font = new Font(this.font.getName(), Font.PLAIN, this.bold);
             return false;
         }else{
             this.bold = bold;
+            this.font = new Font(this.font.getName(), Font.PLAIN, this.bold);
             return true;
         }
+    }
+    public void setText(String text) {
+        this.text = text;
+    }
+    public void setFont(Font font) {
+        this.font = font;
     }
 
     public void setCurrentPen(Pen currentPen) {
@@ -107,6 +133,12 @@ public class ToolStatus {
     public Pen getCurrentPen(){
         return this.currentPen;
     }
+    public String getText() {
+        return text;
+    }
+    public Font getFont() {
+        return font;
+    }
     public Pen[] getPens() {
         return pens;
     }
@@ -117,5 +149,7 @@ public class ToolStatus {
             return new Color(0,0,0);
         }
     }
-
+    public String[] getPresetFont() {
+        return presetFont;
+    }
 }

@@ -7,11 +7,15 @@ public class PenManager implements MouseInputListener {
     private JPanel cvs;
     private Graphics2D g;
 
+    private JTextArea textArea;
+
     private ToolStatus status;
 
-    public PenManager(JPanel cvs){
+    public PenManager(JPanel cvs, JTextArea textArea){
         this.cvs = cvs;
         this.g = (Graphics2D) cvs.getGraphics();
+
+        this.textArea = textArea;
 
         this.status = new ToolStatus(new Color(0,0,0), 5);
     }
@@ -19,6 +23,7 @@ public class PenManager implements MouseInputListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         status.getCurrentPen().mouseClicked(e, g, status);
+        status.setText(this.textArea.getText());
     }
 
     @Override
@@ -54,5 +59,9 @@ public class PenManager implements MouseInputListener {
 
     public ToolStatus getStatus() {
         return status;
+    }
+
+    public void setTextArea(JTextArea textArea) {
+        this.textArea = textArea;
     }
 }
