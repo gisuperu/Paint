@@ -145,7 +145,7 @@ public class LayoutManager {
         JPanel preview = new JPanel();
         preview.setLayout(new BorderLayout());
         preview.setBackground(LayoutManager.MENUBACKCOLOR);
-        preview.setPreferredSize(new Dimension(MENUWIDTH-10, 160));
+        preview.setPreferredSize(new Dimension(MENUWIDTH-10, 180));
         preview.setBorder(new TitledBorder(new LineBorder(Color.BLACK), "preview"));
 
         JPanel statusValues = new JPanel();
@@ -204,8 +204,19 @@ public class LayoutManager {
         int[] center = new int[]{(int)previewArea.getSize().getWidth()/2, (int)previewArea.getSize().getHeight()/2};
 //        System.out.println(status.getColor().toString());
         g.setColor(status.getColor());
-        g.setStroke(new BasicStroke(status.getBold(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        g.drawLine(center[0], center[1], center[0], center[1]);
+        if(status.getCurrentPen() instanceof CrossStampPen){
+            int bold = status.getBold()/2;
+            int size = status.getBold();
+            g.setColor(status.getColor());
+            g.setStroke(new BasicStroke(bold, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            g.drawLine(center[0], center[1], center[0] + size, center[1]);
+            g.drawLine(center[0], center[1], center[0] - size, center[1]);
+            g.drawLine(center[0], center[1], center[0], center[1] + size);
+            g.drawLine(center[0], center[1], center[0], center[1] - size);
+        }else{
+            g.setStroke(new BasicStroke(status.getBold(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            g.drawLine(center[0], center[1], center[0], center[1]);
+        }
 
 
     }
