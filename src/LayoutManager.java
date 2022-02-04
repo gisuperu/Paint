@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class LayoutManager {
     public static final int WORKWIDTH = 700;
@@ -199,6 +200,13 @@ public class LayoutManager {
 
         menu.add(preview);
 
+        //clear button
+        JButton clear = new JButton("初期化");
+        clear.addActionListener(e -> {
+            penManager.clearCvs();
+        });
+        menu.add(clear);
+
 
 
     }
@@ -221,6 +229,9 @@ public class LayoutManager {
         colorPickerFrame.add(submit, BorderLayout.SOUTH);
 
 //        frame.setVisible(true);
+
+    }
+    public void createFileManager(){
 
     }
 

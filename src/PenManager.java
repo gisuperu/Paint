@@ -20,6 +20,12 @@ public class PenManager implements MouseInputListener {
         this.status = new ToolStatus(new Color(0,0,0), 5);
     }
 
+    public void clearCvs(){
+        g = (Graphics2D) cvs.getGraphics();
+        g.setColor(LayoutManager.CVSBACKCOLOR);
+        g.fillRect(0, 0, LayoutManager.CVSWIDTH, LayoutManager.CVSHEIGHT);
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         status.getCurrentPen().mouseClicked(e, g, status);
