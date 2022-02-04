@@ -23,6 +23,9 @@ public class LayoutManager {
 
     private JPanel cvs;
     private JFrame colorPickerFrame;
+    private JPanel previewArea;
+    private JLabel previewPen;
+    private JLabel previewBold;
 
     private PenManager penManager;
 
@@ -74,6 +77,7 @@ public class LayoutManager {
         selector.addActionListener(e -> {
             Pen p = (Pen)((JComboBox)e.getSource()).getSelectedItem();
             penManager.getStatus().setCurrentPen(p);
+            updatePreviewArea(penManager.getStatus());
         });
         menu.add(selector);
 
@@ -96,6 +100,7 @@ public class LayoutManager {
             int bold = e.getValue();
             boldValue.setText(String.valueOf(bold));
             penManager.getStatus().setBold(bold);
+            updatePreviewArea(penManager.getStatus());
         });
 
         boldOptions.add(boldValue, BorderLayout.CENTER);
@@ -119,8 +124,9 @@ public class LayoutManager {
             JButton color = new JButton(c);
             color.setPreferredSize(new Dimension((MENUWIDTH-10)/presetColors.length, 40));
             color.addActionListener(e -> {
-                Color cc = penManager.getStatus().getPresetColor(c + "色");
+                Color cc = penManager.getStatus().getPresetColor(c);
                 penManager.getStatus().setColor(cc);
+                updatePreviewArea(penManager.getStatus());
             });
             presetColorOptions.add(color);
         }
@@ -134,6 +140,35 @@ public class LayoutManager {
         colorOptions.add(colorPicker, BorderLayout.SOUTH);
 
         menu.add(colorOptions);
+
+        //preview
+        JPanel preview = new JPanel();
+        preview.setLayout(new BorderLayout());
+        preview.setBackground(LayoutManager.MENUBACKCOLOR);
+        preview.setPreferredSize(new Dimension(MENUWIDTH-10, 160));
+        preview.setBorder(new TitledBorder(new LineBorder(Color.BLACK), "preview"));
+
+        JPanel statusValues = new JPanel();
+        statusValues.setBackground(MENUBACKCOLOR);
+        statusValues.setLayout(new GridLayout(2,1));
+        statusValues.setPreferredSize(new Dimension(MENUWIDTH-20, 50));
+
+            this.previewPen = new JLabel();
+            previewPen.setText("Pen: " + penManager.getStatus().getCurrentPen().toString());
+            this.previewBold = new JLabel();
+            previewBold.setText("Bold: " + penManager.getStatus().getBold());
+
+        statusValues.add(previewPen, 0);
+        statusValues.add(previewBold, 1);
+        preview.add(statusValues, BorderLayout.NORTH);
+
+        this.previewArea = new JPanel();
+        previewArea.setPreferredSize(new Dimension(MENUWIDTH-20, 100));
+        preview.add(previewArea, BorderLayout.CENTER);
+
+        menu.add(preview);
+
+
 
 
     }
@@ -149,12 +184,29 @@ public class LayoutManager {
         JButton submit = new JButton("決定");
         submit.addActionListener(e -> {
             status.setColor(colorPicker.getColor());
+            updatePreviewArea(penManager.getStatus());
         });
 
         colorPickerFrame.add(colorPicker, BorderLayout.CENTER);
         colorPickerFrame.add(submit, BorderLayout.SOUTH);
 
 //        frame.setVisible(true);
+
+    }
+
+    public void updatePreviewArea(ToolStatus status){
+        previewPen.setText("Pen: " + status.getCurrentPen().toString());
+        previewBold.setText("Bold: " + status.getBold());
+
+        Graphics2D g = (Graphics2D) previewArea.getGraphics();
+        g.setColor(CVSBACKCOLOR);
+        g.fillRect(0, 0, MENUWIDTH, MENUHEIGHT);
+        int[] center = new int[]{(int)previewArea.getSize().getWidth()/2, (int)previewArea.getSize().getHeight()/2};
+//        System.out.println(status.getColor().toString());
+        g.setColor(status.getColor());
+        g.setStroke(new BasicStroke(status.getBold(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        g.drawLine(center[0], center[1], center[0], center[1]);
+
 
     }
 

@@ -26,6 +26,7 @@ public class Main {
             JMenuItem pp = new JMenuItem(p.toString());
             pp.addActionListener(e -> {
                 manager.getPenManager().getStatus().setCurrentPen(p);
+                manager.updatePreviewArea(manager.getPenManager().getStatus());
             });
             pen.add(pp);
         }
@@ -37,6 +38,7 @@ public class Main {
             cc.addActionListener(e -> {
                 Color ccc = manager.getPenManager().getStatus().getPresetColor(c);
                 manager.getPenManager().getStatus().setColor(ccc);
+                manager.updatePreviewArea(manager.getPenManager().getStatus());
             });
             color.add(cc);
         }
@@ -47,6 +49,7 @@ public class Main {
             JMenuItem bb = new JMenuItem(String.valueOf(b));
             bb.addActionListener(e -> {
                 manager.getPenManager().getStatus().setBold(b);
+                manager.updatePreviewArea(manager.getPenManager().getStatus());
             });
             bold.add(bb);
         }
